@@ -8,7 +8,7 @@ class BankAccount {
     private double balance;
 
     public double getBalance() {
-        return this.balance;
+        return balance;
     }
 
     public void setBalance(double balance) {
@@ -23,35 +23,37 @@ class BankAccount {
         this.balance = balance;
     }
 
-    public String getName() {
-        return this.name;
+
+    public String getName () {
+        return name;
     }
 
-    public void setName(String name) {
+    public void setName (String name){
         this.name = name;
     }
 
-    public String getEmail() {
-        return this.email;
+    public String getEmail () {
+        return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail (String email){
         this.email = email;
     }
 
-    public int getPhoneNum() {
-        return this.phoneNum;
+    public int getPhoneNum () {
+        return phoneNum;
     }
 
-    public void setPhoneNum(int phoneNum) {
+    public void setPhoneNum ( int phoneNum){
         this.phoneNum = phoneNum;
     }
 
-    public int getAccountNum() {
-        return this.accountNum;
+    public int getAccountNum () {
+        return accountNum;
     }
 
-    public void setAccountNum(int accountNum) {
+    public void setAccountNum ( int accountNum){
         this.accountNum = accountNum;
+
     }
 }

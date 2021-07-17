@@ -1,26 +1,26 @@
-
 package com.assign.BankApp;
 
 import java.util.List;
 
 public interface BankAccountDAO {
-    void addUser(String var1, String var2, int var3);
+    void addUser(String name, String email, int phoneNum);
 
-    void updateUserName(BankAccount var1);
+    void updateUserName(BankAccount bankAccount);
 
-    void updateUserEmail(BankAccount var1);
+    void updateUserEmail(BankAccount bankAccount);
 
-    void updateUserPhoneNum(BankAccount var1);
+    void updateUserPhoneNum(BankAccount bankAccount);
 
-    void deleteBankAccount(BankAccount var1);
+    void deleteBankAccount(BankAccount bankAccount);
 
     List<BankAccount> getAllUsers();
 
-    BankAccount getUserInfo(int var1);
+    BankAccount getUserInfo(int accountNum);
 
-    void deposit(BankAccount var1);
+    void deposit(BankAccount bankAccount);
 
-    void withdraw(BankAccount var1);
+    void withdraw(BankAccount bankAccount);
 
-    void showBalance(BankAccount var1);
+    void showBalance(BankAccount bankAccount);
+
 }

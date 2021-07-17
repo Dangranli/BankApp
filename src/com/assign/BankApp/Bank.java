@@ -1,50 +1,50 @@
 package com.assign.BankApp;
 
-import java.util.Iterator;
 import java.util.Scanner;
 
 public class Bank {
-    public Bank() {
-    }
-
     public static void main(String[] args) {
         BankAccountDAO bankAccountDAO = new BankAccountDAOImpl();
         Scanner input = new Scanner(System.in);
 
         int option;
+        int userAccountNum ;
+        String username;
+        String userEmail;
+        int userPhoneNum;
+        double money;
         do {
-            System.out.println("Please choose a valid selection to continue.\n1.List all user.\n2.Add new user.\n3.Update user information.\n4.Delete user.\n5.Deposit.\n6.Withdraw.\n7.Balance.\n8.Exit.");
+            System.out.println("Please choose a valid selection to continue.\n" +
+                    "1.List all user.\n" +
+                    "2.Add new user.\n" +
+                    "3.Update user information.\n" +
+                    "4.Delete user.\n" +
+                    "5.Deposit.\n" +
+                    "6.Withdraw.\n" +
+                    "7.Balance.\n" +
+                    "8.Exit.");
             option = input.nextInt();
-            int userAccountNum;
-            String username;
-            String userEmail;
-            int userPhoneNum;
-            double money;
-            BankAccount bankAccountUpdateName;
-            BankAccount bankAccount;
-            BankAccount bankAccountWithdraw;
-            switch(option) {
+            switch (option) {
                 case 1:
-                    Iterator var14 = bankAccountDAO.getAllUsers().iterator();
-
-                    while(var14.hasNext()) {
-                        bankAccount = (BankAccount)var14.next();
+                    for (BankAccount bankAccount : bankAccountDAO.getAllUsers()) {
                         System.out.println("AccountNo.: " + bankAccount.getAccountNum() + ",Name: " + bankAccount.getName());
                     }
-
                     System.out.println("Please input name to display user's information: ");
                     username = input.next();
-                    var14 = bankAccountDAO.getAllUsers().iterator();
 
-                    while(var14.hasNext()) {
-                        bankAccount = (BankAccount)var14.next();
-                        if (bankAccount.getName().equals(username)) {
+                    for (BankAccount bankAccount : bankAccountDAO.getAllUsers()) {
+                        if(bankAccount.getName().equals(username)) {
                             userAccountNum = bankAccount.getAccountNum();
-                            bankAccountWithdraw = bankAccountDAO.getUserInfo(userAccountNum - 1);
-                            System.out.println("Bank account: [Account No.: " + bankAccountWithdraw.getAccountNum() + ", Name: " + bankAccountWithdraw.getName() + ", Email: " + bankAccountWithdraw.getEmail() + ", Phone: " + bankAccountWithdraw.getPhoneNum() + ", Balance: " + bankAccountWithdraw.getBalance() + " ]");
+                            BankAccount bankAccountInfo = bankAccountDAO.getUserInfo(userAccountNum - 1);
+                            System.out.println("Bank account: [Account No.: " + bankAccountInfo.getAccountNum() +
+                                    ", Name: " + bankAccountInfo.getName() +
+                                    ", Email: " + bankAccountInfo.getEmail() +
+                                    ", Phone: " + bankAccountInfo.getPhoneNum() +
+                                    ", Balance: " +bankAccountInfo.getBalance() + " ]");
                         }
                     }
                     break;
+
                 case 2:
                     System.out.println("Please input your name: ");
                     username = input.next();
@@ -56,117 +56,104 @@ public class Bank {
                     System.out.println("Add user success!");
                     break;
                 case 3:
-                    do {
-                        do {
-                            System.out.println("Please input account number.");
-                            userAccountNum = input.nextInt();
-                        } while(userAccountNum > bankAccountDAO.getAllUsers().size());
-                    } while(userAccountNum < 0);
-
-                    System.out.println("Please choose a valid selection to continue.\n1.Update user's name.\n2.Update user's email.\n3.Update user's phone number.");
+                    do{
+                        System.out.println("Please input account number.");
+                        userAccountNum = input.nextInt();
+                    }while(userAccountNum > bankAccountDAO.getAllUsers().size() || userAccountNum < 0);
+                    System.out.println(("Please choose a valid selection to continue.\n" +
+                            "1.Update user's name.\n" +
+                            "2.Update user's email.\n" +
+                            "3.Update user's phone number." ));
                     option = input.nextInt();
-                    switch(option) {
+                    switch (option) {
                         case 1:
-                            bankAccountUpdateName = (BankAccount)bankAccountDAO.getAllUsers().get(userAccountNum - 1);
+                            BankAccount bankAccountUpdateName = bankAccountDAO.getAllUsers().get(userAccountNum - 1);
                             System.out.println("Current name is: " + bankAccountUpdateName.getName());
                             System.out.println("Please input new name: ");
                             username = input.next();
                             bankAccountUpdateName.setName(username);
                             bankAccountDAO.updateUserName(bankAccountUpdateName);
-                            continue;
+                            break;
                         case 2:
-                            bankAccount = (BankAccount)bankAccountDAO.getAllUsers().get(userAccountNum - 1);
-                            System.out.println("Current email is: " + bankAccount.getEmail());
+                            BankAccount bankAccountUpdateEmail = bankAccountDAO.getAllUsers().get(userAccountNum - 1);
+                            System.out.println("Current email is: " + bankAccountUpdateEmail.getEmail());
                             System.out.println("Please input new email: ");
                             userEmail = input.next();
-                            bankAccount.setEmail(userEmail);
-                            bankAccountDAO.updateUserEmail(bankAccount);
-                            continue;
+                            bankAccountUpdateEmail.setEmail(userEmail);
+                            bankAccountDAO.updateUserEmail(bankAccountUpdateEmail);
+                            break;
                         case 3:
-                            bankAccountWithdraw = (BankAccount)bankAccountDAO.getAllUsers().get(userAccountNum - 1);
-                            System.out.println("Current phone number is: " + bankAccountWithdraw.getPhoneNum());
+                            BankAccount bankAccountUpdatePhone = bankAccountDAO.getAllUsers().get(userAccountNum - 1);
+                            System.out.println("Current phone number is: " + bankAccountUpdatePhone.getPhoneNum());
                             System.out.println("Please input new phone number: ");
                             userPhoneNum = input.nextInt();
-                            bankAccountWithdraw.setPhoneNum(userPhoneNum);
-                            bankAccountDAO.updateUserPhoneNum(bankAccountWithdraw);
-                            continue;
+                            bankAccountUpdatePhone.setPhoneNum(userPhoneNum);
+                            bankAccountDAO.updateUserPhoneNum(bankAccountUpdatePhone);
+                            break;
                         default:
                             System.out.println("Input error, please try again.");
-                            continue;
+                            break;
                     }
+                    break;
                 case 4:
-                    do {
-                        do {
-                            System.out.println("Please input account number to delete a user.");
-                            userAccountNum = input.nextInt();
-                        } while(userAccountNum > bankAccountDAO.getAllUsers().size());
-                    } while(userAccountNum < 0);
-
-                    bankAccountUpdateName = (BankAccount)bankAccountDAO.getAllUsers().get(userAccountNum - 1);
-                    bankAccountDAO.deleteBankAccount(bankAccountUpdateName);
+                    do{
+                        System.out.println("Please input account number to delete a user.");
+                        userAccountNum = input.nextInt();
+                    }while(userAccountNum > bankAccountDAO.getAllUsers().size() || userAccountNum < 0);
+                    BankAccount bankAccountDelete = bankAccountDAO.getAllUsers().get(userAccountNum - 1);
+                    bankAccountDAO.deleteBankAccount(bankAccountDelete);
                     break;
                 case 5:
-                    do {
-                        do {
-                            System.out.println("Please input account number to deposit.");
-                            userAccountNum = input.nextInt();
-                        } while(userAccountNum > bankAccountDAO.getAllUsers().size());
-                    } while(userAccountNum < 0);
+                    do{
+                        System.out.println("Please input account number to deposit.");
+                        userAccountNum = input.nextInt();
+                    }while(userAccountNum > bankAccountDAO.getAllUsers().size() || userAccountNum < 0);
 
-                    bankAccount = (BankAccount)bankAccountDAO.getAllUsers().get(userAccountNum - 1);
+                    BankAccount bankAccountDeposit = bankAccountDAO.getAllUsers().get(userAccountNum-1);
                     System.out.println("Please enter the deposit amount.");
                     money = input.nextDouble();
-                    if (money < 5.0D || money > 10000.0D) {
-                        do {
-                            do {
-                                System.out.println("Please try again. (We only allow user deposit between $5 - $10000.)");
-                                money = input.nextDouble();
-                            } while(money < 5.0D);
-                        } while(money > 10000.0D);
+                    if(money < 5 || money > 10000){
+                        do{
+                            System.out.println("Please try again. (We only allow user deposit between $5 - $10000.)");
+                            money = input.nextDouble();
+                        }while(money < 5 || money > 10000);
                     }
-
-                    bankAccount.setBalance(bankAccount.getBalance() + money);
-                    bankAccountDAO.deposit(bankAccount);
+                    bankAccountDeposit.setBalance(bankAccountDeposit.getBalance() + money);
+                    bankAccountDAO.deposit(bankAccountDeposit);
                     break;
                 case 6:
-                    do {
-                        do {
-                            System.out.println("Please input account number to withdraw.");
-                            userAccountNum = input.nextInt();
-                        } while(userAccountNum > bankAccountDAO.getAllUsers().size());
-                    } while(userAccountNum < 0);
+                    do{
+                        System.out.println("Please input account number to withdraw.");
+                        userAccountNum = input.nextInt();
+                    }while(userAccountNum > bankAccountDAO.getAllUsers().size() || userAccountNum < 0);
 
-                    bankAccountWithdraw = (BankAccount)bankAccountDAO.getAllUsers().get(userAccountNum - 1);
+                    BankAccount bankAccountWithdraw = bankAccountDAO.getAllUsers().get(userAccountNum - 1);
                     System.out.println("Please enter the withdraw amount.");
                     money = input.nextDouble();
-                    if (money > bankAccountWithdraw.getBalance() || money <= 0.0D) {
-                        do {
-                            do {
-                                System.out.println("Please try again. (" + bankAccountWithdraw.getBalance() + " available)");
-                                money = input.nextDouble();
-                            } while(money > bankAccountWithdraw.getBalance());
-                        } while(money <= 0.0D);
+                    if(money > bankAccountWithdraw.getBalance() || money <= 0){
+                        do{
+                            System.out.println("Please try again. (" + bankAccountWithdraw.getBalance() + " available)");
+                            money = input.nextDouble();
+                        }while(money > bankAccountWithdraw.getBalance() || money <= 0);
                     }
-
                     bankAccountWithdraw.setBalance(bankAccountWithdraw.getBalance() - money);
                     bankAccountDAO.withdraw(bankAccountWithdraw);
                     break;
                 case 7:
-                    do {
-                        do {
-                            System.out.println("Please input account number to show balance.");
-                            userAccountNum = input.nextInt();
-                        } while(userAccountNum > bankAccountDAO.getAllUsers().size());
-                    } while(userAccountNum < 0);
+                    do{
+                        System.out.println("Please input account number to show balance.");
+                        userAccountNum = input.nextInt();
+                    }while(userAccountNum > bankAccountDAO.getAllUsers().size() || userAccountNum < 0);
 
-                    BankAccount bankAccountBalance = (BankAccount)bankAccountDAO.getAllUsers().get(userAccountNum - 1);
+                    BankAccount bankAccountBalance = bankAccountDAO.getAllUsers().get(userAccountNum - 1);
                     bankAccountDAO.showBalance(bankAccountBalance);
+                    break;
                 case 8:
                     break;
                 default:
                     System.out.println("Input error, please try again.");
+                    break;
             }
-        } while(option != 8);
-
+        } while (option != 8);
     }
 }
