@@ -25,6 +25,7 @@ public class Bank {
                     "8.Exit.");
             option = input.nextInt();
             switch (option) {
+
                 case 1:
                     for (BankAccount bankAccount : bankAccountDAO.getAllUsers()) {
                         System.out.println("AccountNo.: " + bankAccount.getAccountNum() + ",Name: " + bankAccount.getName());
